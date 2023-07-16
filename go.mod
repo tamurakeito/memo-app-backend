@@ -2,6 +2,8 @@ module github.com/tamurakeito/memo-app-backend
 
 go 1.20
 
+require github.com/golang/mock v1.6.0
+
 require (
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.11 // indirect

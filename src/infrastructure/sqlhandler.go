@@ -1,15 +1,16 @@
-package infra
+package infrastructure
 
 import (
-    "database/sql"
+	"database/sql"
 
-    _ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type SqlHandler struct {
     Conn *sql.DB
 }
 
+// sqlHandlerのインスタンスを生成
 func NewSqlHandler() *SqlHandler {
     conn, err := sql.Open("mysql", "root:password@tcp(localhost:3306)/todo")
     if err != nil {

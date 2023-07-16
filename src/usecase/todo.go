@@ -16,6 +16,7 @@ type todoUsecase struct {
     todoRepo repository.TodoRepository
 }
 
+// repository.TodoRepository を usecase.TodoUsecase に型変換するだけ
 func NewTodoUsecase(todoRepo repository.TodoRepository) TodoUsecase {
     todoUsecase := todoUsecase{todoRepo: todoRepo}
     return &todoUsecase

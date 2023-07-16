@@ -1,32 +1,30 @@
 package injector
 
-import (
-	"github.com/tamurakeito/memo-app-backend/src/domain/repository"
-	"github.com/tamurakeito/memo-app-backend/src/handler"
-	"github.com/tamurakeito/memo-app-backend/src/infra"
-	"github.com/tamurakeito/memo-app-backend/src/usecase"
-)
+// import (
+// 	"github.com/tamurakeito/memo-app-backend/src/domain/repository"
+// 	"github.com/tamurakeito/memo-app-backend/src/infrastructure"
+// 	"github.com/tamurakeito/memo-app-backend/src/presentation"
+// 	"github.com/tamurakeito/memo-app-backend/src/usecase"
+// )
 
-func InjectDB() infra.SqlHandler {
-    sqlhandler := infra.NewSqlHandler()
-    return *sqlhandler
-}
+// func InjectDB() infrastructure.SqlHandler {
+//     sqlhandler := infrastructure.NewSqlHandler()
+//     return *sqlhandler
+// }
 
-/* 
-TodoRepository(interface)に実装であるSqlHandler(struct)を渡し生成する。
-*/
-func InjectTodoRepository() repository.TodoRepository {
-    sqlHandler := InjectDB()
-    return infra.NewTodoRepository(sqlHandler)
-}
+// /*
+// TodoRepository(interface)に実装であるSqlHandler(struct)を渡し生成する。
+// */
+// func InjectTodoRepository() repository.TodoRepository {
+//     sqlHandler := InjectDB()
+//     return infrastructure.NewTodoRepository(sqlHandler)
+// }
 
-func InjectTodoUsecase() usecase.TodoUsecase {
-    TodoRepo := InjectTodoRepository()
-    return usecase.NewTodoUsecase(TodoRepo)
-}
+// func InjectTodoUsecase() usecase.TodoUsecase {
+//     TodoRepo := InjectTodoRepository()
+//     return usecase.NewTodoUsecase(TodoRepo)
+// }
 
-func InjectTodoHandler() handler.TodoHandler {
-    return handler.NewTodoHandler(InjectTodoUsecase())
-}
-
-
+// func InjectTodoHandler() presentation.TodoHandler {
+//     return presentation.NewTodoHandler(InjectTodoUsecase())
+// }
