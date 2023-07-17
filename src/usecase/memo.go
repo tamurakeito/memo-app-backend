@@ -16,8 +16,8 @@ type memoUsecase struct {
 }
 
 // repository.MemoRepository を usecase.MemoUsecase に型変換するだけ
-func NewMemoUsecase(memoRepo repository.MemoRepository) MemoUsecase {
-	memoUsecase := memoUsecase{memoRepo: memoRepo}
+func NewMemoUsecase(memoRepo repository.MemoRepository, taskRepo repository.TaskRepository) MemoUsecase {
+	memoUsecase := memoUsecase{memoRepo: memoRepo, taskRepo: taskRepo}
 	return &memoUsecase
 }
 

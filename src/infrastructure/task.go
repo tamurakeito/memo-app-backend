@@ -24,7 +24,7 @@ func (taskRepo *TaskRepository) Find(memoID int) (tasks []model.Task, err error)
 	// 	}
 	// 	list_query += fmt.Sprint(v)
 	// }
-	rows, err := taskRepo.SqlHandler.Conn.Query("SELECT * FROM task_list WHERE memo_id = ?", memoID)
+	rows, err := taskRepo.SqlHandler.Conn.Query("SELECT id, name, complete FROM task_list WHERE memo_id = ?", memoID)
 	defer rows.Close()
 	if err != nil {
 		fmt.Print(err)
@@ -33,7 +33,7 @@ func (taskRepo *TaskRepository) Find(memoID int) (tasks []model.Task, err error)
 	for rows.Next() {
 		task := model.Task{}
 
-		rows.Scan(&task.ID, &task.Name, &task.MemoID, &task.Complete)
+		rows.Scan(&task.ID, &task.Name, &task.Complete)
 
 		tasks = append(tasks, task)
 	}
@@ -41,7 +41,7 @@ func (taskRepo *TaskRepository) Find(memoID int) (tasks []model.Task, err error)
 }
 
 func (taskRepo *TaskRepository) Create(task *model.Task) (*model.Task, error) {
-	_, err := taskRepo.SqlHandler.Conn.Exec("INSERT INTO task_list (name,memo_id,complete) VALUES (?, ?, ?) ", task.Name, task.MemoID, task.Complete)
+	_, err := taskRepo.SqlHandler.Conn.Exec("INSERT INTO task_list (name,complete) VALUES (?, ?, ?) ", task.Name, task.Complete)
 	return task, err
 }
 

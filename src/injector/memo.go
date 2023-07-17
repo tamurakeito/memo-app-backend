@@ -12,36 +12,22 @@ func InjectDB() infrastructure.SqlHandler {
 	return *sqlhandler
 }
 
-/*
-Memo
-*/
 func InjectMemoRepository() repository.MemoRepository {
 	sqlHandler := InjectDB()
 	return infrastructure.NewMemoRepository(sqlHandler)
 }
 
+func InjectTaskRepository() repository.TaskRepository {
+	sqlHandler := InjectDB()
+	return infrastructure.NewTaskRepository(sqlHandler)
+}
+
 func InjectMemoUsecase() usecase.MemoUsecase {
 	MemoRepo := InjectMemoRepository()
-	return usecase.NewMemoUsecase(MemoRepo)
+	TaskRepo := InjectTaskRepository()
+	return usecase.NewMemoUsecase(MemoRepo, TaskRepo)
 }
 
 func InjectMemoHandler() presentation.MemoHandler {
 	return presentation.NewMemoHandler(InjectMemoUsecase())
 }
-
-// /*
-// Task
-// */
-// func InjectTaskRepository() repository.TaskRepository {
-// 	sqlHandler := InjectDB()
-// 	return infrastructure.NewTaskRepository(sqlHandler)
-// }
-
-// func InjectTaskUsecase() usecase.TaskUsecase {
-// 	TaskRepo := InjectTaskRepository()
-// 	return usecase.NewTaskUsecase(TaskRepo)
-// }
-
-// func InjectTaskHandler() presentation.TaskHandler {
-// 	return presentation.NewTaskHandler(InjectTaskUsecase())
-// }
