@@ -4,9 +4,9 @@ services:
     build:
       context: .
       dockerfile: ./docker/app/Dockerfile
-    container_name: test-docker-app
+    container_name: memo-app
     volumes:
-      - .:/go/src/test-docker
+      - .:/go/src/memo-docker
     ports:
       - "80:8080"
     depends_on:
@@ -15,12 +15,12 @@ services:
   mysql:
     image: mysql:8.0
     restart: always
-    container_name: test-docker-db
+    container_name: memo-app-db
     environment:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: test
+      MYSQL_DATABASE: memo-app
     hostname: mysql
     ports:
       - "3306:3306"

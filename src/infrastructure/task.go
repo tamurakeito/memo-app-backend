@@ -16,15 +16,15 @@ func NewTaskRepository(sqlHandler SqlHandler) repository.TaskRepository {
 	return &taskRepository
 }
 
-func (taskRepo *TaskRepository) Find(list []int) (tasks []model.Task, err error) {
-	var list_query string
-	for i, v := range list {
-		if i > 0 {
-			list_query += ","
-		}
-		list_query += fmt.Sprint(v)
-	}
-	rows, err := taskRepo.SqlHandler.Conn.Query("SELECT * FROM tasks WHERE id IN (?)", list_query)
+func (taskRepo *TaskRepository) Find(memoID int) (tasks []model.Task, err error) {
+	// var list_query string
+	// for i, v := range list {
+	// 	if i > 0 {
+	// 		list_query += ","
+	// 	}
+	// 	list_query += fmt.Sprint(v)
+	// }
+	rows, err := taskRepo.SqlHandler.Conn.Query("SELECT * FROM task_list WHERE memo_id = ?", memoID)
 	defer rows.Close()
 	if err != nil {
 		fmt.Print(err)
@@ -33,7 +33,7 @@ func (taskRepo *TaskRepository) Find(list []int) (tasks []model.Task, err error)
 	for rows.Next() {
 		task := model.Task{}
 
-		rows.Scan(&task.ID, &task.Name, &task.Complete)
+		rows.Scan(&task.ID, &task.Name, &task.MemoID, &task.Complete)
 
 		tasks = append(tasks, task)
 	}
@@ -41,11 +41,11 @@ func (taskRepo *TaskRepository) Find(list []int) (tasks []model.Task, err error)
 }
 
 func (taskRepo *TaskRepository) Create(task *model.Task) (*model.Task, error) {
-	_, err := taskRepo.SqlHandler.Conn.Exec("INSERT INTO tasks (name,complete) VALUES (?, ?) ", task.Name, task.Complete)
+	_, err := taskRepo.SqlHandler.Conn.Exec("INSERT INTO task_list (name,memo_id,complete) VALUES (?, ?, ?) ", task.Name, task.MemoID, task.Complete)
 	return task, err
 }
 
 func (taskRepo *TaskRepository) Update(task *model.Task) (*model.Task, error) {
-	_, err := taskRepo.SqlHandler.Conn.Exec("UPDATE tasks SET name = ?,complete = ? WHERE id = ?", task.Name, task.Complete, task.ID)
+	_, err := taskRepo.SqlHandler.Conn.Exec("UPDATE task_list SET name = ?,complete = ? WHERE id = ?", task.Name, task.Complete, task.ID)
 	return task, err
 }

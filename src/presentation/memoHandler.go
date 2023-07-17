@@ -17,10 +17,10 @@ func NewMemoHandler(memoUsecase usecase.MemoUsecase) MemoHandler {
 	return todoHandler
 }
 
-func (handler *MemoHandler) ListSummary() echo.HandlerFunc {
+func (handler *MemoHandler) MemoSummary() echo.HandlerFunc {
 
 	return func(c echo.Context) error {
-		models, err := handler.memoUsecase.ListSummary()
+		models, err := handler.memoUsecase.MemoSummary()
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, models)
 		}
@@ -29,11 +29,11 @@ func (handler *MemoHandler) ListSummary() echo.HandlerFunc {
 
 }
 
-func (handler *MemoHandler) ListDetail() echo.HandlerFunc {
+func (handler *MemoHandler) MemoDetail() echo.HandlerFunc {
 
 	return func(c echo.Context) error {
 		id, err := strconv.Atoi(c.QueryParam("id"))
-		models, err := handler.memoUsecase.ListDetail(id)
+		models, err := handler.memoUsecase.MemoDetail(id)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, models)
 		}

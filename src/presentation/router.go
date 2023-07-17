@@ -14,7 +14,7 @@ func InitRouting(e *echo.Echo, memoHandler MemoHandler) {
 
 	// e.POST("/todoEdit", todoHandler.Edit())
 
-	e.GET("/list-summary", memoHandler.ListSummary())
+	e.GET("/memo-summary", memoHandler.MemoSummary())
 
-	e.GET("/list-detail", memoHandler.ListDetail())
+	e.GET("/memo-detail", memoHandler.MemoDetail())
 }

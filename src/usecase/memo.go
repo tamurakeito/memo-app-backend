@@ -6,8 +6,8 @@ import (
 )
 
 type MemoUsecase interface {
-	ListSummary() (summary []entity.MemoSummary, err error)
-	ListDetail(id int) (detail entity.MemoDetail, err error)
+	MemoSummary() (summary []entity.MemoSummary, err error)
+	MemoDetail(id int) (detail entity.MemoDetail, err error)
 }
 
 type memoUsecase struct {
@@ -21,18 +21,18 @@ func NewMemoUsecase(memoRepo repository.MemoRepository) MemoUsecase {
 	return &memoUsecase
 }
 
-func (usecase *memoUsecase) ListSummary() (summaries []entity.MemoSummary, err error) {
+func (usecase *memoUsecase) MemoSummary() (summaries []entity.MemoSummary, err error) {
 	memos, err := usecase.memoRepo.FindAll()
 	for _, memo := range memos {
-		summary := entity.MemoSummary{ID: memo.ID, Name: memo.Name, Tag: memo.Tag, Length: len(memo.List)}
+		summary := entity.MemoSummary{ID: memo.ID, Name: memo.Name, Tag: memo.Tag, Length: memo.Length}
 		summaries = append(summaries, summary)
 	}
 	return
 }
 
-func (usecase *memoUsecase) ListDetail(id int) (detail entity.MemoDetail, err error) {
+func (usecase *memoUsecase) MemoDetail(id int) (detail entity.MemoDetail, err error) {
 	memo, err := usecase.memoRepo.Find(id)
-	tasks, err := usecase.taskRepo.Find(memo.List)
+	tasks, err := usecase.taskRepo.Find(memo.ID)
 	detail = entity.MemoDetail{ID: memo.ID, Name: memo.Name, Tag: memo.Tag, Tasks: tasks}
 	return
 }

@@ -12,7 +12,7 @@ type MemoRepository interface {
 }
 
 type TaskRepository interface {
-	Find(list []int) (tasks []model.Task, err error)
+	Find(memoID int) (tasks []model.Task, err error)
 	Create(task *model.Task) (*model.Task, error)
 	Update(task *model.Task) (*model.Task, error)
 }

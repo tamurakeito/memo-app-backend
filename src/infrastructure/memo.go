@@ -17,7 +17,7 @@ func NewMemoRepository(sqlHandler SqlHandler) repository.MemoRepository {
 }
 
 func (memoRepo *MemoRepository) FindAll() (memos []*model.Memo, err error) {
-	rows, err := memoRepo.SqlHandler.Conn.Query("SELECT * FROM memos")
+	rows, err := memoRepo.SqlHandler.Conn.Query("SELECT * FROM memo_list")
 	defer rows.Close()
 	if err != nil {
 		fmt.Print(err)
@@ -26,7 +26,7 @@ func (memoRepo *MemoRepository) FindAll() (memos []*model.Memo, err error) {
 	for rows.Next() {
 		memo := model.Memo{}
 
-		rows.Scan(&memo.ID, &memo.Name, &memo.Tag, &memo.List)
+		rows.Scan(&memo.ID, &memo.Name, &memo.Tag, &memo.Length)
 
 		memos = append(memos, &memo)
 	}
@@ -34,7 +34,7 @@ func (memoRepo *MemoRepository) FindAll() (memos []*model.Memo, err error) {
 }
 
 func (memoRepo *MemoRepository) Find(id int) (memo model.Memo, err error) {
-	rows, err := memoRepo.SqlHandler.Conn.Query("SELECT * FROM memos WHERE id = ?", id)
+	rows, err := memoRepo.SqlHandler.Conn.Query("SELECT * FROM memo_list WHERE id = ?", id)
 	defer rows.Close()
 	if err != nil {
 		fmt.Print(err)
@@ -42,17 +42,17 @@ func (memoRepo *MemoRepository) Find(id int) (memo model.Memo, err error) {
 	}
 	for rows.Next() {
 		memo := model.Memo{}
-		rows.Scan(&memo.ID, &memo.Name, &memo.Tag, &memo.List)
+		rows.Scan(&memo.ID, &memo.Name, &memo.Tag, &memo.Length)
 	}
 	return
 }
 
 func (memoRepo *MemoRepository) Create(memo *model.Memo) (*model.Memo, error) {
-	_, err := memoRepo.SqlHandler.Conn.Exec("INSERT INTO memos (name,tag,list) VALUES (?, ?, ?) ", memo.Name, memo.Tag, memo.List)
+	_, err := memoRepo.SqlHandler.Conn.Exec("INSERT INTO memo_list (name,tag,length) VALUES (?, ?, ?) ", memo.Name, memo.Tag, memo.Length)
 	return memo, err
 }
 
 func (memoRepo *MemoRepository) Update(memo *model.Memo) (*model.Memo, error) {
-	_, err := memoRepo.SqlHandler.Conn.Exec("UPDATE memos SET name = ?,tag = ? ,list = ? WHERE id = ?", memo.Name, memo.Tag, memo.List, memo.ID)
+	_, err := memoRepo.SqlHandler.Conn.Exec("UPDATE memo_list SET name = ?,tag = ? ,length = ? WHERE id = ?", memo.Name, memo.Tag, memo.Length, memo.ID)
 	return memo, err
 }
