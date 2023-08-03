@@ -36,9 +36,3 @@ func (usecase *memoUsecase) MemoDetail(id int) (detail entity.MemoDetail, err er
 	detail = entity.MemoDetail{ID: memo.ID, Name: memo.Name, Tag: memo.Tag, Tasks: tasks}
 	return
 }
-
-// // Search 入力された内容でTodoを検索する
-// func (usecase *todoUsecase) Search(word string) (todo []*model.Todo, err error) {
-// 	todo, err = usecase.todoRepo.Find(word)
-// 	return
-// }

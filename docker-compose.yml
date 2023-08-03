@@ -13,7 +13,7 @@ services:
       - db
     restart: always
   db:
-    image: mysql:8.0
+    image: mysql:latest
     restart: always
     container_name: memo-app-db
     environment:
@@ -25,7 +25,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./docker/db/conf.d:/etc/mysql/conf.d
+      - ./docker/db/my.cnf:/etc/mysql/my.cnf
       - ./log/mysql:/var/log/mysql
       - ./sql:/docker-entrypoint-initdb.d
 # マイグレーションは一時的にこの方法でsql実行しているだけ
