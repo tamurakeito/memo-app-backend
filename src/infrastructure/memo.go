@@ -34,17 +34,31 @@ func (memoRepo *MemoRepository) FindAll() (memos []*model.Memo, err error) {
 }
 
 func (memoRepo *MemoRepository) Find(id int) (memo model.Memo, err error) {
-	rows, err := memoRepo.SqlHandler.Conn.Query("SELECT * FROM memo_list WHERE id = ?", id)
-	defer rows.Close()
+	row := memoRepo.SqlHandler.Conn.QueryRow("SELECT * FROM memo_list WHERE id = ?", id)
+	// defer rows.Close()
+	// if err != nil {
+	// 	fmt.Print(err)
+	// 	return
+	// }
+	// for rows.Next() {
+	// 	memo := model.Memo{}
+	// 	rows.Scan(&memo.ID, &memo.Name, &memo.Tag, &memo.Length)
+	// }
+	err = row.Scan(&memo.ID, &memo.Name, &memo.Tag, &memo.Length)
 	if err != nil {
 		fmt.Print(err)
 		return
 	}
-	for rows.Next() {
-		memo := model.Memo{}
-		rows.Scan(&memo.ID, &memo.Name, &memo.Tag, &memo.Length)
-	}
 	return
+
+	// memo = model.Memo{
+	// 	ID:     1,
+	// 	Name:   "テスト",
+	// 	Tag:    true,
+	// 	Length: 7,
+	// }
+	// err = nil
+	// return
 }
 
 func (memoRepo *MemoRepository) Create(memo *model.Memo) (*model.Memo, error) {

@@ -22,11 +22,11 @@ CREATE TABLE task_list(
 );
 
 INSERT INTO task_list(name, memo_id, complete) VALUES
-  ('タスク０', 0, false),
-  ('タスク１', 0, false),
-  ('タスク２', 0, false),
-  ('タスク３', 1, true),
-  ('タスク４', 1, false),
-  ('タスク５', 1, true),
-  ('タスク６', 2, false),
-  ('タスク７', 2, true);
+  ('タスク０', 1, false),
+  ('タスク１', 1, false),
+  ('タスク２', 1, false),
+  ('タスク３', 2, true),
+  ('タスク４', 2, false),
+  ('タスク５', 2, true),
+  ('タスク６', 3, false),
+  ('タスク７', 3, true);

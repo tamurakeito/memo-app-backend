@@ -32,7 +32,7 @@ func (handler *MemoHandler) MemoSummary() echo.HandlerFunc {
 func (handler *MemoHandler) MemoDetail() echo.HandlerFunc {
 
 	return func(c echo.Context) error {
-		id, err := strconv.Atoi(c.QueryParam("id"))
+		id, err := strconv.Atoi(c.Param("id"))
 		model, err := handler.memoUsecase.MemoDetail(id)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, model)
