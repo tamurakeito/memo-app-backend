@@ -148,10 +148,10 @@ func (mr *MockTaskRepositoryMockRecorder) Find(memoID interface{}) *gomock.Call 
 }
 
 // Update mocks base method.
-func (m *MockTaskRepository) Update(task *model.Task) (*model.Task, error) {
+func (m *MockTaskRepository) Update(task model.Task) (model.Task, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", task)
-	ret0, _ := ret[0].(*model.Task)
+	ret0, _ := ret[0].(model.Task)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

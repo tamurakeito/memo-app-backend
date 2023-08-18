@@ -45,7 +45,7 @@ func (taskRepo *TaskRepository) Create(task *model.Task) (*model.Task, error) {
 	return task, err
 }
 
-func (taskRepo *TaskRepository) Update(task *model.Task) (*model.Task, error) {
+func (taskRepo *TaskRepository) Update(task model.Task) (model.Task, error) {
 	_, err := taskRepo.SqlHandler.Conn.Exec("UPDATE task_list SET name = ?,complete = ? WHERE id = ?", task.Name, task.Complete, task.ID)
 	return task, err
 }

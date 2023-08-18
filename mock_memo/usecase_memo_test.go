@@ -89,3 +89,26 @@ func TestMemoDetail(t *testing.T) {
 	}
 
 }
+
+func TestRestatusTask(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	task := model.Task{
+		ID:       0,
+		Name:     "タスク１",
+		Complete: true,
+	}
+
+	mockMemoSample := NewMockMemoRepository(ctrl)
+
+	mockTaskSample := NewMockTaskRepository(ctrl)
+	mockTaskSample.EXPECT().Update(task).Return(task, nil)
+
+	memoUsecase := usecase.NewMemoUsecase(mockMemoSample, mockTaskSample)
+	task, err := memoUsecase.RestatusTask(task)
+
+	if err != nil {
+		t.Error("Actual FindAll() is not same as expected")
+	}
+}
