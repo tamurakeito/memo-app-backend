@@ -16,4 +16,5 @@ func InitRouting(e *echo.Echo, memoHandler MemoHandler) {
 	e.GET("/memo-summary", memoHandler.MemoSummary())
 	e.GET("/memo-detail/:id", memoHandler.MemoDetail())
 	e.PUT("/restatus-task", memoHandler.RestatusTask())
+	e.DELETE("/delete-task/:id", memoHandler.DeleteTask())
 }

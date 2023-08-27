@@ -15,4 +15,5 @@ type TaskRepository interface {
 	Find(memoID int) (tasks []model.Task, err error)
 	Create(task *model.Task) (*model.Task, error)
 	Update(task model.Task) (model.Task, error)
+	Delete(id int) (int, error)
 }
