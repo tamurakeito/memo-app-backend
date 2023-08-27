@@ -40,6 +40,12 @@ func (taskRepo *TaskRepository) Find(memoID int) (tasks []model.Task, err error)
 	return
 }
 
+func (taskRepo *TaskRepository) Count(memoID int) (length int, err error) {
+	row := taskRepo.SqlHandler.Conn.QueryRow("SELECT COUNT(*) FROM task_list WHERE memo_id = ?", memoID)
+	err = row.Scan(&length)
+	return
+}
+
 func (taskRepo *TaskRepository) Create(task *model.Task) (*model.Task, error) {
 	_, err := taskRepo.SqlHandler.Conn.Exec("INSERT INTO task_list (name,complete) VALUES (?, ?, ?) ", task.Name, task.Complete)
 	return task, err

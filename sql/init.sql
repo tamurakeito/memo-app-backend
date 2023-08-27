@@ -4,14 +4,13 @@ CREATE TABLE memo_list(
 	id INT(11) AUTO_INCREMENT NOT NULL, 
   name VARCHAR(30) NOT NULL,
   tag BOOLEAN NOT NULL,
-  length INT(11) NOT NULL,
   PRIMARY KEY (id)
 );
 
-INSERT INTO memo_list(name, tag, length) VALUES
-  ('Todoリスト', true, 3),
-  ('買い物メモ', false, 3),
-  ('行きたい居酒屋', false, 2);
+INSERT INTO memo_list(name, tag) VALUES
+  ('Todoリスト', true),
+  ('買い物メモ', false),
+  ('行きたい居酒屋', false);
 
 CREATE TABLE task_list(
 	id INT(11) AUTO_INCREMENT NOT NULL, 
