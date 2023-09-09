@@ -44,17 +44,15 @@ func TestMemoDetail(t *testing.T) {
 	id := 1
 	name := "テストメモ"
 	tag := false
-	length := 5
 
 	taskId := 7
 	taskName := "テストタスク"
 	complete := false
 
 	var mockMemoFind = model.Memo{
-		ID:     id,
-		Name:   name,
-		Tag:    tag,
-		Length: length,
+		ID:   id,
+		Name: name,
+		Tag:  tag,
 	}
 	var mockTaskFind = []model.Task{
 		{
