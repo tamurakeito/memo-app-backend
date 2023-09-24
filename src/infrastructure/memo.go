@@ -60,12 +60,13 @@ func (memoRepo *MemoRepository) Find(id int) (memo model.Memo, err error) {
 	// return
 }
 
-func (memoRepo *MemoRepository) Create(memo *model.Memo) (*model.Memo, error) {
-	_, err := memoRepo.SqlHandler.Conn.Exec("INSERT INTO memo_list (name,tag) VALUES (?, ?) ", memo.Name, memo.Tag)
+func (memoRepo *MemoRepository) Create(memo model.Memo) (model.Memo, error) {
+	result, err := memoRepo.SqlHandler.Conn.Exec("INSERT INTO memo_list (name,tag) VALUES (?, ?) ", memo.Name, memo.Tag)
+	fmt.Print(result)
 	return memo, err
 }
 
-func (memoRepo *MemoRepository) Update(memo *model.Memo) (*model.Memo, error) {
+func (memoRepo *MemoRepository) Update(memo model.Memo) (model.Memo, error) {
 	_, err := memoRepo.SqlHandler.Conn.Exec("UPDATE memo_list SET name = ?,tag = ? , WHERE id = ?", memo.Name, memo.Tag, memo.ID)
 	return memo, err
 }

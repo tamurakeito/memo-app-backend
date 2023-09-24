@@ -43,6 +43,61 @@ func (handler *MemoHandler) MemoDetail() echo.HandlerFunc {
 
 }
 
+func (handler *MemoHandler) AddMemo() echo.HandlerFunc {
+
+	return func(c echo.Context) error {
+		body := model.Memo{}
+		if err := c.Bind(&body); err != nil {
+			return c.JSON(http.StatusBadRequest, body)
+		}
+		model, err := handler.memoUsecase.AddMemo(body)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, model)
+		}
+		return c.JSON(http.StatusOK, model)
+	}
+
+}
+
+// func (handler *MemoHandler) AddTask() echo.HandlerFunc {
+
+// 	return func(c echo.Context) error {
+// 		id, err := strconv.Atoi(c.Param("id"))
+// 		model, err := handler.memoUsecase.MemoDetail(id)
+// 		if err != nil {
+// 			return c.JSON(http.StatusBadRequest, model)
+// 		}
+// 		return c.JSON(http.StatusOK, model)
+// 	}
+
+// }
+
+// func (handler *MemoHandler) RestatusMemo() echo.HandlerFunc {
+
+// 	return func(c echo.Context) error {
+// 		id, err := strconv.Atoi(c.Param("id"))
+// 		model, err := handler.memoUsecase.MemoDetail(id)
+// 		if err != nil {
+// 			return c.JSON(http.StatusBadRequest, model)
+// 		}
+// 		return c.JSON(http.StatusOK, model)
+// 	}
+
+// }
+
+// func (handler *MemoHandler) RestatusTag() echo.HandlerFunc {
+
+// 	return func(c echo.Context) error {
+// 		id, err := strconv.Atoi(c.Param("id"))
+// 		model, err := handler.memoUsecase.MemoDetail(id)
+// 		if err != nil {
+// 			return c.JSON(http.StatusBadRequest, model)
+// 		}
+// 		return c.JSON(http.StatusOK, model)
+// 	}
+
+// }
+
 func (handler *MemoHandler) RestatusTask() echo.HandlerFunc {
 
 	return func(c echo.Context) error {
