@@ -69,3 +69,8 @@ func (memoRepo *MemoRepository) Update(memo *model.Memo) (*model.Memo, error) {
 	_, err := memoRepo.SqlHandler.Conn.Exec("UPDATE memo_list SET name = ?,tag = ? , WHERE id = ?", memo.Name, memo.Tag, memo.ID)
 	return memo, err
 }
+
+func (memoRepo *MemoRepository) Delete(id int) (int, error) {
+	_, err := memoRepo.SqlHandler.Conn.Exec("DELETE FROM memo_list WHERE id = ?", id)
+	return id, err
+}

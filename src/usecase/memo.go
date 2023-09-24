@@ -9,7 +9,11 @@ import (
 type MemoUsecase interface {
 	MemoSummary() (summary []entity.MemoSummary, err error)
 	MemoDetail(id int) (detail entity.MemoDetail, err error)
+	// AddMemo(task model.Task) (model.Task, error)
+	// AddTask(task model.Task) (model.Task, error)
+	// RestatusMemo(task model.Task) (model.Task, error)
 	RestatusTask(task model.Task) (model.Task, error)
+	DeleteMemo(id int) (int, error)
 	DeleteTask(id int) (int, error)
 }
 
@@ -50,6 +54,19 @@ func (usecase *memoUsecase) MemoDetail(id int) (detail entity.MemoDetail, err er
 func (usecase *memoUsecase) RestatusTask(task model.Task) (model.Task, error) {
 	task, err := usecase.taskRepo.Update(task)
 	return task, err
+}
+
+func (usecase *memoUsecase) DeleteMemo(id int) (int, error) {
+	_, err := usecase.memoRepo.Delete(id)
+	// memoのtask一覧を取得して全部削除する
+	tasks, err := usecase.taskRepo.Find(id)
+	for _, task := range tasks {
+		_, err := usecase.taskRepo.Delete(task.ID)
+		if err != nil {
+			return id, err
+		}
+	}
+	return id, err
 }
 
 func (usecase *memoUsecase) DeleteTask(id int) (int, error) {

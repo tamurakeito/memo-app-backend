@@ -9,6 +9,7 @@ type MemoRepository interface {
 	Find(id int) (memo model.Memo, err error)
 	Create(memo *model.Memo) (*model.Memo, error)
 	Update(memo *model.Memo) (*model.Memo, error)
+	Delete(id int) (int, error)
 }
 
 type TaskRepository interface {

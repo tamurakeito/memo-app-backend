@@ -59,6 +59,19 @@ func (handler *MemoHandler) RestatusTask() echo.HandlerFunc {
 
 }
 
+func (handler *MemoHandler) DeleteMemo() echo.HandlerFunc {
+
+	return func(c echo.Context) error {
+		id, err := strconv.Atoi(c.Param("id"))
+		model, err := handler.memoUsecase.DeleteMemo(id)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, model)
+		}
+		return c.JSON(http.StatusOK, model)
+	}
+
+}
+
 func (handler *MemoHandler) DeleteTask() echo.HandlerFunc {
 
 	return func(c echo.Context) error {
