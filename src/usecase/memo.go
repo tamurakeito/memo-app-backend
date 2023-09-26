@@ -10,7 +10,7 @@ type MemoUsecase interface {
 	MemoSummary() (summary []entity.MemoSummary, err error)
 	MemoDetail(id int) (detail entity.MemoDetail, err error)
 	AddMemo(memo model.Memo) (model.Memo, error)
-	// AddTask(task model.Task) (model.Task, error)
+	AddTask(task model.Task) (model.Task, error)
 	// RestatusMemo(task model.Task) (model.Task, error)
 	RestatusTask(task model.Task) (model.Task, error)
 	DeleteMemo(id int) (int, error)
@@ -56,9 +56,10 @@ func (usecase *memoUsecase) AddMemo(memo model.Memo) (model.Memo, error) {
 	return memo, err
 }
 
-// func (usecase *memoUsecase) AddTask(id int) (detail entity.MemoDetail, err error) {
-// 	return
-// }
+func (usecase *memoUsecase) AddTask(task model.Task) (model.Task, error) {
+	task, err := usecase.taskRepo.Create(task)
+	return task, err
+}
 
 // func (usecase *memoUsecase) RestatusMemo(id int) (detail entity.MemoDetail, err error) {
 // 	return

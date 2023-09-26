@@ -47,7 +47,7 @@ func (taskRepo *TaskRepository) Count(memoID int) (length int, err error) {
 }
 
 func (taskRepo *TaskRepository) Create(task model.Task) (model.Task, error) {
-	_, err := taskRepo.SqlHandler.Conn.Exec("INSERT INTO task_list (name,complete) VALUES (?, ?, ?) ", task.Name, task.Complete)
+	_, err := taskRepo.SqlHandler.Conn.Exec("INSERT INTO task_list (name,memo_id,complete) VALUES (?, ?, ?) ", task.Name, task.MemoID, task.Complete)
 	return task, err
 }
 
