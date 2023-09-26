@@ -67,7 +67,7 @@ func (memoRepo *MemoRepository) Create(memo model.Memo) (model.Memo, error) {
 }
 
 func (memoRepo *MemoRepository) Update(memo model.Memo) (model.Memo, error) {
-	_, err := memoRepo.SqlHandler.Conn.Exec("UPDATE memo_list SET name = ?,tag = ? , WHERE id = ?", memo.Name, memo.Tag, memo.ID)
+	_, err := memoRepo.SqlHandler.Conn.Exec("UPDATE memo_list SET name = ?,tag = ? WHERE id = ?", memo.Name, memo.Tag, memo.ID)
 	return memo, err
 }
 
