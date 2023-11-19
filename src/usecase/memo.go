@@ -29,11 +29,11 @@ func NewMemoUsecase(memoRepo repository.MemoRepository, taskRepo repository.Task
 }
 
 func (usecase *memoUsecase) MemoSummary() (summaries []entity.MemoSummary, err error) {
-	summaries = make([]entity.MemoSummary, 0)
 	memos, err := usecase.memoRepo.FindAll()
 	if err != nil {
 		return
 	}
+	summaries = make([]entity.MemoSummary, 0)
 	for _, memo := range memos {
 		length, countErr := usecase.taskRepo.Count(memo.ID)
 		if countErr != nil {
