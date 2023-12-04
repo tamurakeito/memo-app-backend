@@ -4,26 +4,29 @@ services:
     build:
       context: .
       dockerfile: ./docker/app/Dockerfile
-    container_name: test-docker-app
+    container_name: memo-app
     volumes:
-      - .:/go/src/test-docker
+      - .:/go/src/memo-docker
     ports:
       - "80:8080"
     depends_on:
-      - mysql
+      - db
     restart: always
-  mysql:
-    image: mysql:8.0
+  db:
+    image: mysql:latest
     restart: always
-    container_name: test-docker-db
+    container_name: memo-app-db
     environment:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: test
-    hostname: mysql
+      MYSQL_DATABASE: memo_app
+    hostname: db
     ports:
       - "3306:3306"
     volumes:
-      - ./docker/db/conf.d:/etc/mysql/conf.d
+      - ./docker/db/my.cnf:/etc/mysql/my.cnf
       - ./log/mysql:/var/log/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+# マイグレーションは一時的にこの方法でsql実行しているだけ
+# 今後やりたいこと：migrate/migrateの使用とデータ永続化
