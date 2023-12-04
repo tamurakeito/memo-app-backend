@@ -22,5 +22,5 @@ func main() {
 	// Logger.Fatalはエラーメッセージをログに出力しアプリケーションを停止する
 	// 重要なエラーが発生した場合に使用される
 	// 普通のエラーは通常のエラーハンドリングを使おう
-	e.Logger.Fatal(e.Start(":8081"))
+	e.Logger.Fatal(e.Start(":8080"))
 }
