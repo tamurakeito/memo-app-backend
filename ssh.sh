@@ -1,0 +1,1 @@
+ssh-agent && ssh-add ~/.ssh/memo-app-gcp

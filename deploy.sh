@@ -1,0 +1,1 @@
+ssh kit_tamtam@35.197.94.117 'bash -s' < gcp-script.sh

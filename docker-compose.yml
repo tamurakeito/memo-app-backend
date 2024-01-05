@@ -12,6 +12,10 @@ services:
     depends_on:
       - db
     restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
   db:
     image: mysql:latest
     restart: always
@@ -28,5 +32,9 @@ services:
       - ./docker/db/my.cnf:/etc/mysql/my.cnf
       - ./log/mysql:/var/log/mysql
       - ./sql:/docker-entrypoint-initdb.d
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
 # マイグレーションは一時的にこの方法でsql実行しているだけ
 # 今後やりたいこと：migrate/migrateの使用とデータ永続化
