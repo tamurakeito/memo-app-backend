@@ -1,3 +1,2 @@
-cd memo-app-backend
-sudo git pull
+cd go-docker
 docker-compose up --build -d
