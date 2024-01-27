@@ -12,3 +12,7 @@ type Task struct {
 	MemoID   int    `json:"memo_id"`
 	Complete bool   `json:"complete"`
 }
+
+type ClientData struct {
+	Tab int `json:"tab"`
+}

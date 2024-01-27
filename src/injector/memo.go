@@ -22,10 +22,16 @@ func InjectTaskRepository() repository.TaskRepository {
 	return infrastructure.NewTaskRepository(sqlHandler)
 }
 
+func InjectClientDataRepository() repository.ClientDataRepository {
+	sqlHandler := InjectDB()
+	return infrastructure.NewClientRepository(sqlHandler)
+}
+
 func InjectMemoUsecase() usecase.MemoUsecase {
 	MemoRepo := InjectMemoRepository()
 	TaskRepo := InjectTaskRepository()
-	return usecase.NewMemoUsecase(MemoRepo, TaskRepo)
+	ClientRepo := InjectClientDataRepository()
+	return usecase.NewMemoUsecase(MemoRepo, TaskRepo, ClientRepo)
 }
 
 func InjectMemoHandler() presentation.MemoHandler {

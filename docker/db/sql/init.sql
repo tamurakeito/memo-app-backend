@@ -29,3 +29,10 @@ INSERT INTO task_list(name, memo_id, complete) VALUES
   ('タスク５', 2, true),
   ('タスク６', 3, false),
   ('タスク７', 3, true);
+
+CREATE TABLE client_data(
+  tab INT(3) NOT NULL
+);
+
+INSERT INTO client_data(tab) VALUES
+  (0);

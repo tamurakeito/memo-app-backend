@@ -19,3 +19,8 @@ type TaskRepository interface {
 	Update(task model.Task) (model.Task, error)
 	Delete(id int) (int, error)
 }
+
+type ClientDataRepository interface {
+	Find() (model.ClientData, error)
+	Update(data model.ClientData) (model.ClientData, error)
+}

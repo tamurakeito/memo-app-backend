@@ -132,3 +132,31 @@ func (handler *MemoHandler) DeleteTask() echo.HandlerFunc {
 	}
 
 }
+
+func (handler *MemoHandler) ClientData() echo.HandlerFunc {
+
+	return func(c echo.Context) error {
+		models, err := handler.memoUsecase.ClientData()
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, models)
+		}
+		return c.JSON(http.StatusOK, models)
+	}
+
+}
+
+func (handler *MemoHandler) ClientDataOverrode() echo.HandlerFunc {
+
+	return func(c echo.Context) error {
+		body := model.ClientData{}
+		if err := c.Bind(&body); err != nil {
+			return c.JSON(http.StatusBadRequest, body)
+		}
+		model, err := handler.memoUsecase.ClientDataOverrode(body)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, model)
+		}
+		return c.JSON(http.StatusOK, model)
+	}
+
+}

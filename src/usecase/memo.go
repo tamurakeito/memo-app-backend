@@ -15,16 +15,19 @@ type MemoUsecase interface {
 	RestatusTask(task model.Task) (model.Task, error)
 	DeleteMemo(id int) (int, error)
 	DeleteTask(id int) (int, error)
+	ClientData() (model.ClientData, error)
+	ClientDataOverrode(data model.ClientData) (model.ClientData, error)
 }
 
 type memoUsecase struct {
-	memoRepo repository.MemoRepository
-	taskRepo repository.TaskRepository
+	memoRepo   repository.MemoRepository
+	taskRepo   repository.TaskRepository
+	clientRepo repository.ClientDataRepository
 }
 
 // repository.MemoRepository を usecase.MemoUsecase に型変換するだけ
-func NewMemoUsecase(memoRepo repository.MemoRepository, taskRepo repository.TaskRepository) MemoUsecase {
-	memoUsecase := memoUsecase{memoRepo: memoRepo, taskRepo: taskRepo}
+func NewMemoUsecase(memoRepo repository.MemoRepository, taskRepo repository.TaskRepository, clientRepo repository.ClientDataRepository) MemoUsecase {
+	memoUsecase := memoUsecase{memoRepo: memoRepo, taskRepo: taskRepo, clientRepo: clientRepo}
 	return &memoUsecase
 }
 
@@ -88,4 +91,14 @@ func (usecase *memoUsecase) DeleteMemo(id int) (int, error) {
 func (usecase *memoUsecase) DeleteTask(id int) (int, error) {
 	id, err := usecase.taskRepo.Delete(id)
 	return id, err
+}
+
+func (usecase *memoUsecase) ClientData() (model.ClientData, error) {
+	data, err := usecase.clientRepo.Find()
+	return data, err
+}
+
+func (usecase *memoUsecase) ClientDataOverrode(data model.ClientData) (model.ClientData, error) {
+	data, err := usecase.clientRepo.Update(data)
+	return data, err
 }
