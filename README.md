@@ -9,5 +9,5 @@ chmod +x ./ssh.sh ./deploy.sh ./gcp-script.sh
 ```
 
 ```
-./deploy.sh
+yarn deploy
 ```

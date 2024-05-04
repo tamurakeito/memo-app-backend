@@ -32,6 +32,7 @@ func (taskRepo *TaskRepository) Find(memoID int) (tasks []model.Task, err error)
 	}
 	for rows.Next() {
 		task := model.Task{}
+		task.MemoID = memoID
 
 		rows.Scan(&task.ID, &task.Name, &task.Complete)
 
