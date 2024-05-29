@@ -14,7 +14,7 @@ INSERT INTO memo_list(name, tag) VALUES
 
 CREATE TABLE task_list(
 	id INT(11) AUTO_INCREMENT NOT NULL, 
-  name VARCHAR(30) NOT NULL,
+  name VARCHAR(100) NOT NULL,
   memo_id INT(11) NOT NULL,
   complete BOOLEAN NOT NULL,
   PRIMARY KEY (id)
