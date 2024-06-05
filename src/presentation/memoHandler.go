@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo"
+	"github.com/tamurakeito/memo-app-backend/src/domain/entity"
 	"github.com/tamurakeito/memo-app-backend/src/domain/model"
 	"github.com/tamurakeito/memo-app-backend/src/usecase"
 )
@@ -46,7 +47,7 @@ func (handler *MemoHandler) MemoDetail() echo.HandlerFunc {
 func (handler *MemoHandler) AddMemo() echo.HandlerFunc {
 
 	return func(c echo.Context) error {
-		body := model.Memo{}
+		body := entity.MemoDetail{}
 		if err := c.Bind(&body); err != nil {
 			return c.JSON(http.StatusBadRequest, body)
 		}

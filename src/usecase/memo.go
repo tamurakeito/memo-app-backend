@@ -9,7 +9,7 @@ import (
 type MemoUsecase interface {
 	MemoSummary() (summary []entity.MemoSummary, err error)
 	MemoDetail(id int) (detail entity.MemoDetail, err error)
-	AddMemo(memo model.Memo) (model.Memo, error)
+	AddMemo(memo entity.MemoDetail) (entity.MemoDetail, error)
 	AddTask(task model.Task) (model.Task, error)
 	RestatusMemo(memo model.Memo) (model.Memo, error)
 	RestatusTask(task model.Task) (model.Task, error)
@@ -55,9 +55,13 @@ func (usecase *memoUsecase) MemoDetail(id int) (detail entity.MemoDetail, err er
 	return
 }
 
-func (usecase *memoUsecase) AddMemo(memo model.Memo) (model.Memo, error) {
-	memo, err := usecase.memoRepo.Create(memo)
-	return memo, err
+func (usecase *memoUsecase) AddMemo(memoDetail entity.MemoDetail) (entity.MemoDetail, error) {
+	_, err := usecase.memoRepo.Create(model.Memo{ID: memoDetail.ID, Name: memoDetail.Name, Tag: memoDetail.Tag})
+	// task_listへタスクの追加
+	for _, task := range memoDetail.Tasks {
+		_, err = usecase.taskRepo.Create(task)
+	}
+	return memoDetail, err
 }
 
 func (usecase *memoUsecase) AddTask(task model.Task) (model.Task, error) {
