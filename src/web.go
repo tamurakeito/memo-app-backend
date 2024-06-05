@@ -15,7 +15,7 @@ func main() {
 	e := echo.New()
 	// CORSの設定
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:3000", "http://35.233.218.140:8080", "http://192.168.0.109:3000"},
+		AllowOrigins: []string{"http://localhost:3000", "http://35.233.218.140:8080", "http://192.168.0.109:3000", "http://192.168.20.31:3000"},
 	}))
 
 	handler.InitRouting(e, memoHandler)

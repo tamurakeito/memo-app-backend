@@ -1,6 +1,7 @@
 package infrastructure
 
 import (
+	"database/sql"
 	"fmt"
 
 	"github.com/tamurakeito/memo-app-backend/src/domain/model"
@@ -61,7 +62,13 @@ func (memoRepo *MemoRepository) Find(id int) (memo model.Memo, err error) {
 }
 
 func (memoRepo *MemoRepository) Create(memo model.Memo) (model.Memo, error) {
-	result, err := memoRepo.SqlHandler.Conn.Exec("INSERT INTO memo_list (name,tag) VALUES (?, ?) ", memo.Name, memo.Tag)
+	var result sql.Result
+	var err error
+	result, err = memoRepo.SqlHandler.Conn.Exec("INSERT INTO memo_list (id,name,tag) VALUES (?, ?, ?) ", memo.ID, memo.Name, memo.Tag)
+	if err != nil {
+		result, err = memoRepo.SqlHandler.Conn.Exec("INSERT INTO memo_list (name,tag) VALUES (?, ?) ", memo.Name, memo.Tag)
+	}
+	// result, err := memoRepo.SqlHandler.Conn.Exec("INSERT INTO memo_list (name,tag) VALUES (?, ?) ", memo.Name, memo.Tag)
 	fmt.Print(result)
 	return memo, err
 }
