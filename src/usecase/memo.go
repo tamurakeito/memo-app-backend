@@ -56,12 +56,12 @@ func (usecase *memoUsecase) MemoDetail(id int) (detail entity.MemoDetail, err er
 }
 
 func (usecase *memoUsecase) AddMemo(memoDetail entity.MemoDetail) (entity.MemoDetail, error) {
-	_, err := usecase.memoRepo.Create(model.Memo{ID: memoDetail.ID, Name: memoDetail.Name, Tag: memoDetail.Tag})
+	memo, err := usecase.memoRepo.Create(model.Memo{ID: memoDetail.ID, Name: memoDetail.Name, Tag: memoDetail.Tag})
 	// task_listへタスクの追加
 	for _, task := range memoDetail.Tasks {
 		_, err = usecase.taskRepo.Create(task)
 	}
-	return memoDetail, err
+	return entity.MemoDetail{ID: memo.ID, Name: memo.Name, Tag: memo.Tag, Tasks: memoDetail.Tasks}, err
 }
 
 func (usecase *memoUsecase) AddTask(task model.Task) (model.Task, error) {
