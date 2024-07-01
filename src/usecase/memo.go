@@ -17,17 +17,20 @@ type MemoUsecase interface {
 	DeleteTask(id int) (int, error)
 	ClientData() (model.ClientData, error)
 	ClientDataOverrode(data model.ClientData) (model.ClientData, error)
+	// MemoOder() (entity.MemoOder, error)
+	MemoOderOverrode(data entity.MemoOder) (entity.MemoOder, error)
 }
 
 type memoUsecase struct {
 	memoRepo   repository.MemoRepository
 	taskRepo   repository.TaskRepository
 	clientRepo repository.ClientDataRepository
+	oderRepo   repository.OderRepository
 }
 
 // repository.MemoRepository を usecase.MemoUsecase に型変換するだけ
-func NewMemoUsecase(memoRepo repository.MemoRepository, taskRepo repository.TaskRepository, clientRepo repository.ClientDataRepository) MemoUsecase {
-	memoUsecase := memoUsecase{memoRepo: memoRepo, taskRepo: taskRepo, clientRepo: clientRepo}
+func NewMemoUsecase(memoRepo repository.MemoRepository, taskRepo repository.TaskRepository, clientRepo repository.ClientDataRepository, oderRepo repository.OderRepository) MemoUsecase {
+	memoUsecase := memoUsecase{memoRepo: memoRepo, taskRepo: taskRepo, clientRepo: clientRepo, oderRepo: oderRepo}
 	return &memoUsecase
 }
 
@@ -104,5 +107,13 @@ func (usecase *memoUsecase) ClientData() (model.ClientData, error) {
 
 func (usecase *memoUsecase) ClientDataOverrode(data model.ClientData) (model.ClientData, error) {
 	data, err := usecase.clientRepo.Update(data)
+	return data, err
+}
+
+// func (usecase *memoUsecase) MemoOder() (entity.MemoOder, error) {
+// }
+
+func (usecase *memoUsecase) MemoOderOverrode(data entity.MemoOder) (entity.MemoOder, error) {
+	data, err := usecase.oderRepo.Update(data)
 	return data, err
 }

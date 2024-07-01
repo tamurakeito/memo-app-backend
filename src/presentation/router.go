@@ -23,4 +23,6 @@ func InitRouting(e *echo.Echo, memoHandler MemoHandler) {
 	e.DELETE("/delete-task/:id", memoHandler.DeleteTask())
 	e.GET("/client-data", memoHandler.ClientData())
 	e.PUT("/client-data-override", memoHandler.ClientDataOverrode())
+	// e.GET("/memo-oder", memoHandler.MemoOder())
+	e.PUT("/memo-oder-override", memoHandler.MemoOderOverrode())
 }

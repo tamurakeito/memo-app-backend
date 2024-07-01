@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"github.com/tamurakeito/memo-app-backend/src/domain/entity"
 	"github.com/tamurakeito/memo-app-backend/src/domain/model"
 )
 
@@ -23,4 +24,9 @@ type TaskRepository interface {
 type ClientDataRepository interface {
 	Find() (model.ClientData, error)
 	Update(data model.ClientData) (model.ClientData, error)
+}
+
+type OderRepository interface {
+	Find() (entity.MemoOder, error)
+	Update(data entity.MemoOder) (entity.MemoOder, error)
 }

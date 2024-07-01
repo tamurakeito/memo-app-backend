@@ -15,3 +15,7 @@ type MemoDetail struct {
 	Tag   bool         `json:"tag"`
 	Tasks []model.Task `json:"tasks"`
 }
+
+type MemoOder struct {
+	Oder []int `json:"oder"`
+}

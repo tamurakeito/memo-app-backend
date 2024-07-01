@@ -36,3 +36,9 @@ CREATE TABLE client_data(
 
 INSERT INTO client_data(tab) VALUES
   (0);
+
+CREATE TABLE memo_oder(
+  oder JSON
+);
+
+INSERT INTO memo_oder(oder) VALUES ('{"oder": [3,2,1]}');
