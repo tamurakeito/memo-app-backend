@@ -3,6 +3,7 @@ package infrastructure
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 
 	"github.com/tamurakeito/memo-app-backend/src/domain/entity"
 	"github.com/tamurakeito/memo-app-backend/src/domain/repository"
@@ -18,11 +19,17 @@ func NewOderRepository(sqlHandler SqlHandler) repository.OderRepository {
 }
 
 func (oderRepo *OderRepository) Find() (data entity.MemoOder, err error) {
+	var jsonData string
 	row := oderRepo.SqlHandler.Conn.QueryRow("SELECT oder FROM memo_oder")
-	err = row.Scan(&data.Oder)
+	err = row.Scan(&jsonData)
 	if err != nil {
-		fmt.Print(err)
+		log.Fatal(err)
 		return
+	}
+
+	err = json.Unmarshal([]byte(jsonData), &data)
+	if err != nil {
+		log.Fatal(err)
 	}
 	return
 }

@@ -39,14 +39,27 @@ func (usecase *memoUsecase) MemoSummary() (summaries []entity.MemoSummary, err e
 	if err != nil {
 		return
 	}
-	summaries = make([]entity.MemoSummary, 0)
+
+	oders, err := usecase.oderRepo.Find()
+	order := oders.Oder
+
+	// idをキーにしてMapを作成
+	memoMap := make(map[int]*model.Memo)
 	for _, memo := range memos {
-		length, countErr := usecase.taskRepo.Count(memo.ID)
-		if countErr != nil {
-			return
+		memoMap[memo.ID] = memo
+	}
+
+	// oderで並べ替える
+	summaries = make([]entity.MemoSummary, 0)
+	for _, id := range order {
+		if memo, exists := memoMap[id]; exists {
+			length, countErr := usecase.taskRepo.Count(memo.ID)
+			if countErr != nil {
+				return
+			}
+			summary := entity.MemoSummary{ID: memo.ID, Name: memo.Name, Tag: memo.Tag, Length: length}
+			summaries = append(summaries, summary)
 		}
-		summary := entity.MemoSummary{ID: memo.ID, Name: memo.Name, Tag: memo.Tag, Length: length}
-		summaries = append(summaries, summary)
 	}
 	return
 }
