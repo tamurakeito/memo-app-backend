@@ -37,8 +37,8 @@ CREATE TABLE client_data(
 INSERT INTO client_data(tab) VALUES
   (0);
 
-CREATE TABLE memo_oder(
-  oder JSON
+CREATE TABLE memo_order(
+  `order` JSON
 );
 
-INSERT INTO memo_oder(oder) VALUES ('{"oder": [3,2,1]}');
+INSERT INTO memo_order(`order`) VALUES ('{"order": [3,2,1]}');

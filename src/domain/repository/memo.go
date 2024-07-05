@@ -26,7 +26,7 @@ type ClientDataRepository interface {
 	Update(data model.ClientData) (model.ClientData, error)
 }
 
-type OderRepository interface {
-	Find() (entity.MemoOder, error)
-	Update(data entity.MemoOder) (entity.MemoOder, error)
+type OrderRepository interface {
+	Find() (entity.MemoOrder, error)
+	Update(data entity.MemoOrder) (entity.MemoOrder, error)
 }

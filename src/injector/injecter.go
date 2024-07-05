@@ -27,17 +27,17 @@ func InjectClientDataRepository() repository.ClientDataRepository {
 	return infrastructure.NewClientRepository(sqlHandler)
 }
 
-func InjectOderRepository() repository.OderRepository {
+func InjectOrderRepositoryy() repository.OrderRepository {
 	sqlHandler := InjectDB()
-	return infrastructure.NewOderRepository(sqlHandler)
+	return infrastructure.NewOrderRepositoryy(sqlHandler)
 }
 
 func InjectMemoUsecase() usecase.MemoUsecase {
 	MemoRepo := InjectMemoRepository()
 	TaskRepo := InjectTaskRepository()
 	ClientRepo := InjectClientDataRepository()
-	OderRepo := InjectOderRepository()
-	return usecase.NewMemoUsecase(MemoRepo, TaskRepo, ClientRepo, OderRepo)
+	orderRepo := InjectOrderRepositoryy()
+	return usecase.NewMemoUsecase(MemoRepo, TaskRepo, ClientRepo, orderRepo)
 }
 
 func InjectMemoHandler() presentation.MemoHandler {

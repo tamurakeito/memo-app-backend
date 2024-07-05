@@ -16,6 +16,6 @@ type MemoDetail struct {
 	Tasks []model.Task `json:"tasks"`
 }
 
-type MemoOder struct {
-	Oder []int `json:"oder"`
+type MemoOrder struct {
+	Order []int `json:"order"`
 }

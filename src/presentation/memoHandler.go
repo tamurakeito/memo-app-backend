@@ -162,10 +162,10 @@ func (handler *MemoHandler) ClientDataOverrode() echo.HandlerFunc {
 
 }
 
-// func (handler *MemoHandler) MemoOder() echo.HandlerFunc {
+// func (handler *MemoHandler) MemoOrder() echo.HandlerFunc {
 
 // 	return func(c echo.Context) error {
-// 		models, err := handler.memoUsecase.MemoOder()
+// 		models, err := handler.memoUsecase.MemoOrder()
 // 		if err != nil {
 // 			return c.JSON(http.StatusBadRequest, models)
 // 		}
@@ -174,14 +174,14 @@ func (handler *MemoHandler) ClientDataOverrode() echo.HandlerFunc {
 
 // }
 
-func (handler *MemoHandler) MemoOderOverrode() echo.HandlerFunc {
+func (handler *MemoHandler) MemoOrderOverrode() echo.HandlerFunc {
 
 	return func(c echo.Context) error {
-		body := entity.MemoOder{}
+		body := entity.MemoOrder{}
 		if err := c.Bind(&body); err != nil {
 			return c.JSON(http.StatusBadRequest, body)
 		}
-		model, err := handler.memoUsecase.MemoOderOverrode(body)
+		model, err := handler.memoUsecase.MemoOrderOverrode(body)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, model)
 		}
