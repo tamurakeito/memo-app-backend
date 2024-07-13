@@ -19,3 +19,8 @@ type MemoDetail struct {
 type MemoOrder struct {
 	Order []int `json:"order"`
 }
+
+type TaskOrder struct {
+	ID    int   `json:"id"`
+	Order []int `json:"order"`
+}

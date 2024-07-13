@@ -7,9 +7,10 @@ import (
 
 type MemoRepository interface {
 	FindAll() (memos []*model.Memo, err error)
-	Find(id int) (memo model.Memo, err error)
+	Find(id int) (memo model.Memo, order entity.TaskOrder, err error)
 	Create(memo model.Memo) (model.Memo, error)
 	Update(memo model.Memo) (model.Memo, error)
+	UpdateTask(taskOrder entity.TaskOrder) (entity.TaskOrder, error)
 	Delete(id int) (int, error)
 }
 

@@ -162,18 +162,6 @@ func (handler *MemoHandler) ClientDataOverrode() echo.HandlerFunc {
 
 }
 
-// func (handler *MemoHandler) MemoOrder() echo.HandlerFunc {
-
-// 	return func(c echo.Context) error {
-// 		models, err := handler.memoUsecase.MemoOrder()
-// 		if err != nil {
-// 			return c.JSON(http.StatusBadRequest, models)
-// 		}
-// 		return c.JSON(http.StatusOK, models)
-// 	}
-
-// }
-
 func (handler *MemoHandler) MemoOrderOverrode() echo.HandlerFunc {
 
 	return func(c echo.Context) error {
@@ -182,6 +170,22 @@ func (handler *MemoHandler) MemoOrderOverrode() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, body)
 		}
 		model, err := handler.memoUsecase.MemoOrderOverrode(body)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, model)
+		}
+		return c.JSON(http.StatusOK, model)
+	}
+
+}
+
+func (handler *MemoHandler) TaskOrderOverrode() echo.HandlerFunc {
+
+	return func(c echo.Context) error {
+		body := entity.TaskOrder{}
+		if err := c.Bind(&body); err != nil {
+			return c.JSON(http.StatusBadRequest, body)
+		}
+		model, err := handler.memoUsecase.TaskOrderOverrode(body)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, model)
 		}

@@ -19,8 +19,8 @@ type MemoUsecase interface {
 	DeleteTask(id int) (int, error)
 	ClientData() (model.ClientData, error)
 	ClientDataOverrode(data model.ClientData) (model.ClientData, error)
-	// MemoOrder() (entity.MemoOrder, error)
 	MemoOrderOverrode(data entity.MemoOrder) (entity.MemoOrder, error)
+	TaskOrderOverrode(data entity.TaskOrder) (entity.TaskOrder, error)
 }
 
 type memoUsecase struct {
@@ -67,13 +67,32 @@ func (usecase *memoUsecase) MemoSummary() (summaries []entity.MemoSummary, err e
 }
 
 func (usecase *memoUsecase) MemoDetail(id int) (detail entity.MemoDetail, err error) {
-	memo, err := usecase.memoRepo.Find(id)
+	memo, orders, err := usecase.memoRepo.Find(id)
 	if err != nil {
 		log.Fatal(err)
 		return detail, err
 	}
 	tasks, err := usecase.taskRepo.Find(memo.ID)
-	detail = entity.MemoDetail{ID: memo.ID, Name: memo.Name, Tag: memo.Tag, Tasks: tasks}
+
+	taskMap := make(map[int]model.Task)
+	for _, task := range tasks {
+		taskMap[task.ID] = task
+	}
+	// orderで並べ替える
+	orderTasks := make([]model.Task, 0)
+	for _, id := range orders.Order {
+		if task, exists := taskMap[id]; exists {
+			orderTasks = append(orderTasks, task)
+			delete(taskMap, id) // 追加されたタスクをtaskMapから削除
+		}
+	}
+
+	// 残ったタスクを追加する
+	for _, task := range taskMap {
+		orderTasks = append(orderTasks, task)
+	}
+
+	detail = entity.MemoDetail{ID: memo.ID, Name: memo.Name, Tag: memo.Tag, Tasks: orderTasks}
 	return
 }
 
@@ -157,10 +176,12 @@ func (usecase *memoUsecase) ClientDataOverrode(data model.ClientData) (model.Cli
 	return data, err
 }
 
-// func (usecase *memoUsecase) MemoOrder() (entity.MemoOrder, error) {
-// }
-
 func (usecase *memoUsecase) MemoOrderOverrode(data entity.MemoOrder) (entity.MemoOrder, error) {
 	data, err := usecase.orderRepo.Update(data)
+	return data, err
+}
+
+func (usecase *memoUsecase) TaskOrderOverrode(data entity.TaskOrder) (entity.TaskOrder, error) {
+	data, err := usecase.memoRepo.UpdateTask(data)
 	return data, err
 }

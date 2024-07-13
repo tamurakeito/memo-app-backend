@@ -4,13 +4,14 @@ CREATE TABLE memo_list(
 	id INT(11) AUTO_INCREMENT NOT NULL, 
   name VARCHAR(30) NOT NULL,
   tag BOOLEAN NOT NULL,
+  task_order JSON,
   PRIMARY KEY (id)
 );
 
-INSERT INTO memo_list(name, tag) VALUES
-  ('Todoリスト', true),
-  ('買い物メモ', false),
-  ('行きたい居酒屋', false);
+INSERT INTO memo_list(name, tag, task_order) VALUES
+  ('Todoリスト', true, '{"order": [3,2,1]}'),
+  ('買い物メモ', false, '{"order": [4,6,5]}'),
+  ('行きたい居酒屋', false, '{"order": [8,7]}');
 
 CREATE TABLE task_list(
 	id INT(11) AUTO_INCREMENT NOT NULL, 
