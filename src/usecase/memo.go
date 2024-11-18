@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/tamurakeito/memo-app-backend/src/domain/entity"
@@ -18,9 +19,9 @@ type MemoUsecase interface {
 	DeleteMemo(id int) (int, error)
 	DeleteTask(id int) (int, error)
 	ClientData() (model.ClientData, error)
-	ClientDataOverrode(data model.ClientData) (model.ClientData, error)
-	MemoOrderOverrode(data entity.MemoOrder) (entity.MemoOrder, error)
-	TaskOrderOverrode(data entity.TaskOrder) (entity.TaskOrder, error)
+	ClientDataOverride(data model.ClientData) (model.ClientData, error)
+	MemoOrderOverride(data entity.MemoOrder) (entity.MemoOrder, error)
+	TaskOrderOverride(data entity.TaskOrder) (entity.TaskOrder, error)
 }
 
 type memoUsecase struct {
@@ -126,8 +127,36 @@ func (usecase *memoUsecase) AddMemo(memoDetail entity.MemoDetail) (entity.MemoDe
 }
 
 func (usecase *memoUsecase) AddTask(task model.Task) (model.Task, error) {
-	task, err := usecase.taskRepo.Create(task)
-	return task, err
+	createdTask, err := usecase.taskRepo.Create(task)
+	if err != nil {
+		log.Fatal(err)
+		return task, err
+	}
+	fmt.Printf("createdTask: id: %d, memoId: %d\n", createdTask.ID, createdTask.MemoID)
+
+	_, orders, err := usecase.memoRepo.Find(createdTask.MemoID)
+	if err != nil {
+		log.Fatal(err)
+		return createdTask, err
+	}
+	fmt.Printf("orders ID: %d, orders.Order: %v\n", orders.ID, orders.Order)
+
+	if orders.Order == nil {
+		orders.Order = []int{}
+	}
+
+	// 型を揃えてからappend
+	newOrder := append([]int{int(createdTask.ID)}, orders.Order...)
+	fmt.Printf("newOrder: %v\n", newOrder)
+
+	newTaskOrder := entity.TaskOrder{ID: orders.ID, Order: newOrder}
+	_, err = usecase.memoRepo.UpdateTask(newTaskOrder)
+	if err != nil {
+		log.Fatal(err)
+		return createdTask, err
+	}
+
+	return createdTask, nil
 }
 
 func (usecase *memoUsecase) RestatusMemo(memo model.Memo) (model.Memo, error) {
@@ -171,17 +200,17 @@ func (usecase *memoUsecase) ClientData() (model.ClientData, error) {
 	return data, err
 }
 
-func (usecase *memoUsecase) ClientDataOverrode(data model.ClientData) (model.ClientData, error) {
+func (usecase *memoUsecase) ClientDataOverride(data model.ClientData) (model.ClientData, error) {
 	data, err := usecase.clientRepo.Update(data)
 	return data, err
 }
 
-func (usecase *memoUsecase) MemoOrderOverrode(data entity.MemoOrder) (entity.MemoOrder, error) {
+func (usecase *memoUsecase) MemoOrderOverride(data entity.MemoOrder) (entity.MemoOrder, error) {
 	data, err := usecase.orderRepo.Update(data)
 	return data, err
 }
 
-func (usecase *memoUsecase) TaskOrderOverrode(data entity.TaskOrder) (entity.TaskOrder, error) {
+func (usecase *memoUsecase) TaskOrderOverride(data entity.TaskOrder) (entity.TaskOrder, error) {
 	data, err := usecase.memoRepo.UpdateTask(data)
 	return data, err
 }

@@ -36,7 +36,7 @@ func (memoRepo *MemoRepository) FindAll() (memos []*model.Memo, err error) {
 	return
 }
 
-func (memoRepo *MemoRepository) Find(id int) (memo model.Memo, order entity.TaskOrder, err error) {
+func (memoRepo *MemoRepository) Find(id int) (memo model.Memo, taskOrder entity.TaskOrder, err error) {
 	var jsonData string
 	row := memoRepo.SqlHandler.Conn.QueryRow("SELECT id, name, tag, task_order FROM memo_list WHERE id = ?", id)
 	err = row.Scan(&memo.ID, &memo.Name, &memo.Tag, &jsonData)
@@ -44,7 +44,14 @@ func (memoRepo *MemoRepository) Find(id int) (memo model.Memo, order entity.Task
 		log.Fatal(err)
 		return
 	}
+	var order struct {
+		Order []int
+	}
 	err = json.Unmarshal([]byte(jsonData), &order)
+	taskOrder = entity.TaskOrder{
+		ID:    memo.ID,
+		Order: order.Order,
+	}
 	if err != nil {
 		log.Fatal(err)
 	}
